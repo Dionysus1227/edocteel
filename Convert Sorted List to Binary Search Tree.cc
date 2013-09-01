@@ -27,8 +27,10 @@ private:
         if (len <= 0) return NULL;
         TreeNode * cur = new TreeNode(0);
         cur->left = BuildBST(head, len >> 1);
-        cur->val = head->val;
-        head = head->next;
+        if (head != NULL) {
+            cur->val = head->val;
+            head = head->next;    
+        }        
         cur->right = BuildBST(head, len - 1 - (len >> 1));
         return cur;
     }
