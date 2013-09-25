@@ -24,3 +24,32 @@ private:
         }
     }
 };
+//non-recursion version
+class Solution {
+    public:
+        vector<vector<int> > permuteUnique(vector<int> &num) {
+        sort(num.begin(), num.end());
+        int n = num.size();
+        vector<bool> vst(n + 1, false);
+        vector<vector<int> > ans;
+        int i = 0;
+        vector<int> cur(n, -1);
+        while (i >= 0) {
+            if (i == n) {
+                vector<int> permutation;
+                for (int index : cur) {
+                    permutation.push_back(num[index]);
+                }
+                ans.push_back(permutation);
+                i--;
+                continue;
+            }
+            if (cur[i] >= 0) vst[cur[i]] = false;
+            for (++cur[i]; cur[i] < n && (vst[cur[i]] || cur[i] > 0 && num[cur[i]] == num[cur[i] - 1] && !vst[cur[i] - 1]); ++cur[i]);
+            if (cur[i] == n) {
+                cur[i--] = -1;
+            } else vst[cur[i++]] = true;
+        }
+        return ans;
+    }
+};
